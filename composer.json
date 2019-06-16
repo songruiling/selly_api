@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Wending\\Wallet\\": "src/"
+            "Wending\\Selly\\": "src/"
         }
     },
     "require": {
