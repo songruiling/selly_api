@@ -1,0 +1,14 @@
+{
+    "name": "wending/selly",
+    "description": "selly.cc",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "问鼎",
+            "email": "postmaster@g000.cn"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "*"
+    }
+}
