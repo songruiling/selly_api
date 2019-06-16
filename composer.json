@@ -8,6 +8,11 @@
             "email": "postmaster@g000.cn"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Wending\\Wallet\\": "src/"
+        }
+    },
     "require": {
         "guzzlehttp/guzzle": "*"
     }
