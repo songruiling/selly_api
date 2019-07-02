@@ -1,0 +1,12 @@
+.env
+venv
+logs
+.idea
+app.db
+nohup.out
+*.py[cod]
+.user.ini
+flask_context.db
+*/.DS_Store
+vendor
+composer.lock

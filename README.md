@@ -4,7 +4,6 @@
 ```php
 
 
-
 use Wending\Selly\Wallet
 use GuzzleHttp\Exception\ClientException;
 

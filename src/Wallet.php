@@ -3,7 +3,6 @@
 namespace Wending\Selly;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Selly 钱包接口
@@ -15,7 +14,8 @@ class Wallet
      * API地址
      * @var string
      */
-    public $url = 'https://selly.fakajun.com/';
+    // public $url = 'https://selly.fakajun.com/';
+    public $url = 'http://127.0.0.1:5000/';
 
     /**
      * 网络请求
@@ -45,15 +45,17 @@ class Wallet
     {
         $_this = $this;
 
-        return Cache::remember('selly.token', 5, function () use ($_this) {
-            $email    = config('services.selly.email');
-            $password = config('services.selly.password');
-            $res      = $_this->client->post($_this->url . 'oauth/token', [
-                'query' => compact('email', 'password'),
-            ])->getBody()->getContents();
+        // return Cache::remember('selly.token', 5, function () use ($_this) {
+        // $email    = config('services.selly.email');
+        // $password = config('services.selly.password');
+        $email    = 'im@selly.cc';
+        $password = '123456';
+        $res      = $_this->client->post($_this->url . 'oauth/token', [
+            'json' => compact('email', 'password'),
+        ])->getBody()->getContents();
 
-            return json_decode($res);
-        });
+        return json_decode($res)->data->access_token;
+        // });
     }
 
     /**
@@ -66,14 +68,14 @@ class Wallet
      */
     public function create($token)
     {
-        $res = $this->client->post($this->url . 'oauth/token', [
-            'query'   => compact('token'),
+        $res = $this->client->post($this->url . 'api/wallet/create', [
+            'json'    => compact('token'),
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->token()->access_token,
+                'Authorization' => 'Bearer ' . $this->token(),
             ],
         ])->getBody()->getContents();
 
-        return json_decode($res);
+        return json_decode($res)->data->address;
     }
 
     /**
@@ -85,12 +87,12 @@ class Wallet
      * @param     string $token   [description]
      * @return    [type]          [description]
      */
-    public function balance($address, $token = 'omni_usdt')
+    public function balance($address, $token = 'erc20_usdt')
     {
         $res = $this->client->post($this->url . 'api/wallet/balance', [
-            'query'   => compact('address', 'token'),
+            'json'    => compact('address', 'token'),
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->token()->access_token,
+                'Authorization' => 'Bearer ' . $this->token(),
             ],
         ])->getBody()->getContents();
 
@@ -104,20 +106,20 @@ class Wallet
      * @author Wending <postmaster@g000.cn>
      * @param     [type] $to_address  [description]
      * @param     [type] $amount      [description]
-     * @param     [type] $fee_address [description]
+     * @param     [type] $from_address [description]
      * @param     string $token       [description]
      * @return    [type]              [description]
      */
-    public function withdraw($to_address, $amount, $fee_address, $token = 'omni_usdt')
+    public function withdraw($to_address, $amount, $from_address, $token = 'omni_usdt')
     {
         $res = $this->client->post($this->url . 'api/wallet/withdraw', [
-            'query'   => compact('to_address', 'amount', 'fee_address', 'token'),
+            'json'    => compact('to_address', 'amount', 'from_address', 'token'),
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->token()->access_token,
+                'Authorization' => 'Bearer ' . $this->token(),
             ],
         ])->getBody()->getContents();
 
-        return json_decode($res);
+        return json_decode($res)->data;
     }
 
 }
