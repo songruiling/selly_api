@@ -120,7 +120,7 @@ class Wallet
             ],
         ])->getBody()->getContents();
 
-        return json_decode($res)->data;
+        return json_decode($res);
     }
 
 }
