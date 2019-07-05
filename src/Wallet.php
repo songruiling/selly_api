@@ -2,6 +2,7 @@
 
 namespace Wending\Selly;
 
+use Cache;
 use GuzzleHttp\Client;
 
 /**
@@ -14,8 +15,8 @@ class Wallet
      * API地址
      * @var string
      */
-    // public $url = 'https://selly.fakajun.com/';
-    public $url = 'http://127.0.0.1:5000/';
+    public $url = 'https://selly.fakajun.com/';
+    // public $url = 'http://127.0.0.1:5000/';
 
     /**
      * 网络请求
@@ -45,17 +46,17 @@ class Wallet
     {
         $_this = $this;
 
-        // return Cache::remember('selly.token', 5, function () use ($_this) {
-        // $email    = config('services.selly.email');
-        // $password = config('services.selly.password');
-        $email    = 'im@selly.cc';
-        $password = '123456';
-        $res      = $_this->client->post($_this->url . 'oauth/token', [
-            'json' => compact('email', 'password'),
-        ])->getBody()->getContents();
+        return Cache::remember('selly.token', 5, function () use ($_this) {
+            $email    = config('services.selly.email');
+            $password = config('services.selly.password');
+            // $email    = 'im@selly.cc';
+            // $password = '123456';
+            $res = $_this->client->post($_this->url . 'oauth/token', [
+                'json' => compact('email', 'password'),
+            ])->getBody()->getContents();
 
-        return json_decode($res)->data->access_token;
-        // });
+            return json_decode($res)->data->access_token;
+        });
     }
 
     /**
