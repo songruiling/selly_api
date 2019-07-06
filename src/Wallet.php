@@ -111,7 +111,7 @@ class Wallet
      * @param     string $token       [description]
      * @return    [type]              [description]
      */
-    public function withdraw($to_address, $amount, $from_address, $token = 'omni_usdt')
+    public function withdraw($from_address, $to_address, $amount, $token = 'omni_usdt')
     {
         $res = $this->client->post($this->url . 'api/wallet/withdraw', [
             'json'    => compact('to_address', 'amount', 'from_address', 'token'),
