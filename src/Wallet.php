@@ -15,7 +15,7 @@ class Wallet
      * API地址
      * @var string
      */
-    public $url = 'https://selly.fakajun.com/';
+    public $url = 'https://api.selly.cc/';
     // public $url = 'http://127.0.0.1:5000/';
 
     /**
@@ -115,6 +115,46 @@ class Wallet
     {
         $res = $this->client->post($this->url . 'api/wallet/withdraw', [
             'json'    => compact('to_address', 'amount', 'from_address', 'token'),
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->token(),
+            ],
+        ])->getBody()->getContents();
+
+        return json_decode($res);
+    }
+
+    /**
+     * 汇总数据查询
+     *
+     * @copyright 问鼎公司   版权所有
+     * @author Wending <postmaster@g000.cn>
+     * @param     string $token [description]
+     * @return    [type]        [description]
+     */
+    public function get_owner($token = 'erc20_usdt')
+    {
+        $res = $this->client->get($this->url . 'api/owner', [
+            'json'    => compact('token'),
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->token(),
+            ],
+        ])->getBody()->getContents();
+
+        return json_decode($res);
+    }
+
+    /**
+     * 钱包余额汇总
+     *
+     * @copyright 问鼎公司   版权所有
+     * @author Wending <postmaster@g000.cn>
+     * @param     string $token [description]
+     * @return    [type]        [description]
+     */
+    public function owner($token = 'erc20_usdt')
+    {
+        $res = $this->client->post($this->url . 'api/owner', [
+            'json'    => compact('token'),
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token(),
             ],
