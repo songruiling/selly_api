@@ -133,7 +133,7 @@ class Wallet
      */
     public function get_owner($token = 'erc20_usdt')
     {
-        $res = $this->client->get($this->url . 'api/owner', [
+        $res = $this->client->get($this->url . 'api/wallet/owner', [
             'json'    => compact('token'),
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token(),
@@ -153,7 +153,7 @@ class Wallet
      */
     public function owner($token = 'erc20_usdt')
     {
-        $res = $this->client->post($this->url . 'api/owner', [
+        $res = $this->client->post($this->url . 'api/wallet/owner', [
             'json'    => compact('token'),
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token(),
